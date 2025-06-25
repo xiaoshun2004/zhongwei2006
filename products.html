@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品中心 - 优质企业</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 产品页面特定样式 */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .products-section {
+            padding: 80px 0;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image {
+            height: 250px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: #3498db;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            color: #3498db;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .product-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .product-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-features li {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-features li::before {
+            content: '✓';
+            color: #27ae60;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .product-price {
+            color: #e74c3c;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .inquiry-btn {
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .inquiry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .load-more {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .load-more-btn {
+            background: white;
+            color: #3498db;
+            border: 2px solid #3498db;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .load-more-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-tabs {
+                justify-content: center;
+            }
+            
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>优质企业</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="products.html" class="nav-link active">产品中心</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">联系我们</a>
+                </li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面头部 -->
+    <section class="page-header">
+        <div class="container">
+            <h1>产品中心</h1>
+            <p>我们提供多样化的高质量产品解决方案，满足不同行业和客户的特定需求</p>
+        </div>
+    </section>
+
+    <!-- 产品展示 -->
+    <section class="products-section">
+        <div class="container">
+            <!-- 筛选标签 -->
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">全部产品</button>
+                <button class="filter-btn" data-filter="software">软件解决方案</button>
+                <button class="filter-btn" data-filter="hardware">硬件设备</button>
+                <button class="filter-btn" data-filter="service">技术服务</button>
+                <button class="filter-btn" data-filter="consulting">咨询顾问</button>
+            </div>
+
+            <!-- 产品网格 -->
+            <div class="products-grid">
+                <!-- LED导光板产品1 -->
+                <div class="product-card" data-category="hardware">
+                    <div class="product-image">
+                        <img src="images/prod1.jpg" alt="超薄LED导光板">
+                        <div class="product-badge">热销</div>
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">LED导光板</div>
+                        <h3 class="product-title">超薄LED导光板</h3>
+                        <p class="product-description">采用先进的激光雕刻技术，厚度仅3mm，光线分布均匀，节能环保，广泛应用于广告灯箱、室内照明等领域。</p>
+                        <ul class="product-features">
+                            <li>超薄设计，厚度3-6mm可选</li>
+                            <li>光线分布均匀，无暗区</li>
+                            <li>高透光率，节能省电</li>
+                            <li>寿命长达5万小时以上</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥180起/平米</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LED导光板产品2 -->
+                <div class="product-card" data-category="hardware">
+                    <div class="product-image">
+                        <img src="images/prod2.jpg" alt="大尺寸LED导光板">
+                        <div class="product-badge">新品</div>
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">LED导光板</div>
+                        <h3 class="product-title">大尺寸LED导光板</h3>
+                        <p class="product-description">专为大型广告牌和展示屏设计，最大尺寸可达3000×2000mm，采用进口PMMA材料，透光率高达92%以上。</p>
+                        <ul class="product-features">
+                            <li>大尺寸无拼接，最大3000×2000mm</li>
+                            <li>进口PMMA材料，品质保证</li>
+                            <li>透光率高达92%以上</li>
+                            <li>表面抗UV处理，不易老化</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥220起/平米</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LED导光板产品3 -->
+                <div class="product-card" data-category="hardware">
+                    <div class="product-image">
+                        <img src="images/prod3.jpg" alt="RGB彩色LED导光板">
+                        <div class="product-badge">推荐</div>
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">LED导光板</div>
+                        <h3 class="product-title">RGB彩色LED导光板</h3>
+                        <p class="product-description">支持RGB三色调节，可实现1600万种颜色变化，配备智能控制系统，适用于创意照明和装饰应用。</p>
+                        <ul class="product-features">
+                            <li>RGB三色可调，1600万种颜色</li>
+                            <li>智能控制系统，手机APP控制</li>
+                            <li>多种变化模式，炫彩效果</li>
+                            <li>防水等级IP65，室外可用</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥350起/平米</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LED导光板产品4 -->
+                <div class="product-card" data-category="hardware">
+                    <div class="product-image">
+                        <img src="images/prod4.jpg" alt="柔性LED导光板">
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">LED导光板</div>
+                        <h3 class="product-title">柔性LED导光板</h3>
+                        <p class="product-description">采用柔性材料制造，可弯曲角度达90度，厚度仅2mm，完美适配曲面设计，为创意照明提供无限可能。</p>
+                        <ul class="product-features">
+                            <li>柔性设计，可弯曲90度</li>
+                            <li>超薄2mm厚度</li>
+                            <li>适配各种曲面造型</li>
+                            <li>安装简便，维护容易</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥280起/平米</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LED导光板产品5 -->
+                <div class="product-card" data-category="hardware">
+                    <div class="product-image">
+                        <img src="images/prod5.jpg" alt="智能感应LED导光板">
+                        <div class="product-badge">智能</div>
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">LED导光板</div>
+                        <h3 class="product-title">智能感应LED导光板</h3>
+                        <p class="product-description">内置红外感应器和光敏传感器，可根据环境光线和人体感应自动调节亮度，实现真正的智能化照明管理。</p>
+                        <ul class="product-features">
+                            <li>红外感应，人来灯亮</li>
+                            <li>光敏感应，自动调节亮度</li>
+                            <li>节能模式，延长使用寿命</li>
+                            <li>无线控制，远程管理</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥420起/平米</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 其他产品保持不变 -->
+                <div class="product-card" data-category="service">
+                    <div class="product-image">
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">技术服务</div>
+                        <h3 class="product-title">LED导光板定制服务</h3>
+                        <p class="product-description">专业的LED导光板定制服务，从设计到生产全流程支持，满足客户个性化需求。</p>
+                        <ul class="product-features">
+                            <li>个性化设计方案</li>
+                            <li>专业技术指导</li>
+                            <li>快速打样服务</li>
+                            <li>批量生产支持</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">定制报价</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="service">
+                    <div class="product-image">
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">技术服务</div>
+                        <h3 class="product-title">安装维护服务</h3>
+                        <p class="product-description">专业的LED导光板安装和维护服务，确保产品正常使用和延长使用寿命。</p>
+                        <ul class="product-features">
+                            <li>专业安装团队</li>
+                            <li>现场技术指导</li>
+                            <li>定期维护保养</li>
+                            <li>故障快速响应</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">¥100起/次</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="consulting">
+                    <div class="product-image">
+                        <div class="product-badge">专业</div>
+                        <div class="product-actions">
+                            <button class="action-btn" title="快速预览">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="添加到收藏">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">咨询顾问</div>
+                        <h3 class="product-title">照明解决方案咨询</h3>
+                        <p class="product-description">提供专业的LED照明解决方案咨询，帮助客户选择最适合的导光板产品和应用方案。</p>
+                        <ul class="product-features">
+                            <li>专业照明设计</li>
+                            <li>产品选型建议</li>
+                            <li>成本效益分析</li>
+                            <li>项目实施指导</li>
+                        </ul>
+                        <div class="product-footer">
+                            <div class="product-price">免费咨询</div>
+                            <button class="inquiry-btn">立即咨询</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载更多 -->
+            <div class="load-more">
+                <button class="load-more-btn">查看更多产品</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>优质企业</h3>
+                    <p>专注于为客户提供优质产品和专业服务，以创新推动发展</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="products.html">产品中心</a></li>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系信息</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +86 400-123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@company.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 北京市朝阳区创新大厦</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 优质企业. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 

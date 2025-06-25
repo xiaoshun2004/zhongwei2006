@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优质企业 - 专业产品与服务</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 新版首页特定样式 */
+        .hero-new {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #9b59b6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-banner {
+            background-image: url('images/19yearrs.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 80px auto 60px;
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 1200px;
+            min-height: 400px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+        
+        .welcome-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .welcome-btn:hover {
+            background: linear-gradient(45deg, #764ba2, #9b59b6);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .company-info {
+            color: rgba(255, 255, 255, 0.95);
+            margin-top: 30px;
+        }
+        
+        .company-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .company-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .products-showcase {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        
+        .showcase-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .showcase-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .showcase-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .showcase-image {
+            height: 250px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .showcase-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .showcase-item:hover .showcase-image img {
+            transform: scale(1.05);
+        }
+        
+        .showcase-content {
+            padding: 25px;
+        }
+        
+        .showcase-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .showcase-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .showcase-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .showcase-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(45deg, #764ba2, #9b59b6);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-banner {
+                margin: 100px 20px 40px;
+                padding: 40px 20px;
+                min-height: 300px;
+            }
+            
+            .company-logo {
+                font-size: 2rem;
+            }
+            
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .showcase-container {
+                margin: 0 20px;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-banner {
+                padding: 30px 15px;
+                min-height: 250px;
+            }
+            
+            .welcome-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .company-logo {
+                font-size: 1.8rem;
+            }
+            
+            .company-subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        /* 企业理念区域样式 */
+        .company-philosophy {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .company-philosophy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+        
+        .philosophy-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+        
+        .philosophy-main {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .philosophy-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .philosophy-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            line-height: 1.3;
+            position: relative;
+        }
+        
+        .philosophy-description {
+            color: #5a6c7d;
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+        
+        .philosophy-description p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .philosophy-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .philosophy-btn:hover {
+            background: linear-gradient(45deg, #764ba2, #9b59b6);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .service-highlights {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 50px;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .service-item {
+            text-align: center;
+            position: relative;
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .service-icon:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .service-icon i {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+        
+        .service-item h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .service-item p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .philosophy-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .company-philosophy {
+                padding: 60px 0;
+            }
+            
+            .philosophy-main,
+            .service-highlights {
+                padding: 30px;
+                margin: 0 20px;
+            }
+            
+            .philosophy-title {
+                font-size: 1.8rem;
+            }
+            
+            .service-grid {
+                gap: 30px;
+            }
+            
+            .service-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .service-icon i {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .philosophy-main,
+            .service-highlights {
+                padding: 25px;
+                margin: 0 15px;
+                border-radius: 20px;
+            }
+            
+            .philosophy-title {
+                font-size: 1.5rem;
+            }
+            
+            .philosophy-description {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>优质企业</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="products.html" class="nav-link">产品中心</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">联系我们</a>
+                </li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 新版英雄区域 -->
+    <section class="hero-new">
+        <div class="hero-banner">
+            <div class="banner-content">
+                <div class="company-logo">优质企业</div>
+                <div class="company-subtitle">19年专业技术服务领导者</div>
+                <a href="products.html" class="welcome-btn">
+                    <i class="fas fa-star"></i> 欢迎来到优质企业
+                </a>
+            </div>
+        </div>
+
+        <!-- 产品展示区域 -->
+        <div class="products-showcase">
+            <div class="showcase-container">
+                <div class="showcase-grid">
+                    <div class="showcase-item">
+                        <div class="showcase-image">
+                            <img src="images/prod1.jpg" alt="核心产品A">
+                        </div>
+                        <div class="showcase-content">
+                            <h3 class="showcase-title">智能解决方案</h3>
+                            <p class="showcase-desc">基于19年技术积累，为企业提供全方位的智能化解决方案，提升运营效率。</p>
+                            <a href="products.html" class="showcase-btn">了解详情</a>
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-item">
+                        <div class="showcase-image">
+                            <img src="images/prod2.jpg" alt="核心产品B">
+                        </div>
+                        <div class="showcase-content">
+                            <h3 class="showcase-title">专业技术服务</h3>
+                            <p class="showcase-desc">专业团队提供从咨询到实施的全流程技术服务，确保项目成功落地。</p>
+                            <a href="products.html" class="showcase-btn">了解详情</a>
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-item">
+                        <div class="showcase-image">
+                            <img src="images/prod3.jpg" alt="核心产品C">
+                        </div>
+                        <div class="showcase-content">
+                            <h3 class="showcase-title">创新产品研发</h3>
+                            <p class="showcase-desc">持续创新研发，推出行业领先的产品和技术，为客户创造更大价值。</p>
+                            <a href="products.html" class="showcase-btn">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 企业理念与服务介绍 -->
+    <section class="company-philosophy">
+        <div class="container">
+            <div class="philosophy-content">
+                <div class="philosophy-main">
+                    <div class="philosophy-text">
+                        <h2 class="philosophy-title">用当代的艺术理念，将灯生活化</h2>
+                        <div class="philosophy-description">
+                            <p>久亮科技导光板有限公司是一家专注于LED导光工艺品设计研发、制造、营销、服务于一体的企业。产品主要包括导光板、吸顶灯、壁灯、台灯、落地灯、餐吊灯、无主灯、磁吸灯、射灯、筒灯、LED灯罩(灯条)、辅助照明灯、水晶灯，其中包含智能照明、商业照明、餐饮连锁的灯具、家居灯饰、户外亮化工程照明、别墅酒店非标高端定制灯具等。</p>
+                            <p>探索艺术灯具背后的精湛工艺为满足每一颗向内偏爱的艺术灵魂，一件完整的作品，从方案设计到制工艺开始，就需要把控整件产品的亮点表达出来，而这个制作过程更加前加控整件设计师整体把控能力的考验，每一个环节，不容忽视，也至关重要。</p>
+                        </div>
+                        <a href="about.html" class="philosophy-btn">展示更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-highlights">
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3>外贸出口</h3>
+                            <p>久亮灯饰，灯具常年出口到澳洲，中东，俄罗斯，欧洲，中亚，美洲，日韩以及东南亚等地，并获得了良好口碑与赞誉；</p>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h3>品牌愿景</h3>
+                            <p>我们的每个产品都专注创新与品质，从选材到设计，每一处细节都力求完美。</p>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="fas fa-target"></i>
+                            </div>
+                            <h3>卓越品质</h3>
+                            <p>JiuYearLights拥有完整的产品质量管理体系，精心把控每个生产环节，确保每个产品品质的交付到客户手中；</p>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>优质客户服务</h3>
+                            <p>严格的管理，质量与世界同步；精心的制造、创新追求卓越户满意为宗旨，为每位客户提供全方位的优质服务；</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色服务 -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">我们的优势</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>19年专业经验</h3>
+                    <p>自2005年成立以来，我们专注于技术创新和服务优化，积累了丰富的行业经验</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>品质保证</h3>
+                    <p>严格的质量控制体系，每一件产品都经过严格检测，确保客户满意</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>专业团队</h3>
+                    <p>拥有经验丰富的专业团队，为客户提供全方位的技术支持和服务</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>贴心服务</h3>
+                    <p>7x24小时客户服务，快速响应客户需求，提供及时有效的解决方案</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们预览 -->
+    <section class="contact-preview">
+        <div class="container">
+            <div class="contact-content">
+                <h2>准备开始合作？</h2>
+                <p>我们期待与您携手合作，共创美好未来</p>
+                <a href="contact.html" class="btn btn-primary">立即联系</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>优质企业</h3>
+                    <p>专注于为客户提供优质产品和专业服务，以创新推动发展</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="products.html">产品中心</a></li>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系信息</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +86 400-123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@company.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 北京市朝阳区创新大厦</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 优质企业. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 
