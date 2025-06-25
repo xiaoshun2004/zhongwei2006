@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netlify部署测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        img { max-width: 200px; border: 2px solid #ddd; margin: 5px; }
+        .file-test { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Netlify部署问题诊断</h1>
+    
+    <div class="test-container">
+        <h2>📋 问题诊断报告</h2>
+        
+        <div class="file-test">
+            <h3>1. CSS文件加载测试</h3>
+            <div id="css-test" class="status warning">正在检测CSS文件...</div>
+            <p>CSS文件路径: <code>css/style.css</code></p>
+        </div>
+        
+        <div class="file-test">
+            <h3>2. 图片文件加载测试</h3>
+            <div id="img-test" class="status warning">正在检测图片文件...</div>
+            <p>测试图片:</p>
+            <img src="images/19yearrs.png" alt="19年历程" onerror="imageError(this, '19yearrs.png')" onload="imageSuccess(this, '19yearrs.png')">
+            <img src="images/prod1.jpg" alt="产品1" onerror="imageError(this, 'prod1.jpg')" onload="imageSuccess(this, 'prod1.jpg')">
+            <img src="images/factory1.jpg" alt="工厂1" onerror="imageError(this, 'factory1.jpg')" onload="imageSuccess(this, 'factory1.jpg')">
+        </div>
+        
+        <div class="file-test">
+            <h3>3. JavaScript文件加载测试</h3>
+            <div id="js-test" class="status warning">正在检测JS文件...</div>
+            <p>JS文件路径: <code>js/script.js</code></p>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>🔨 常见解决方案</h2>
+        
+        <div class="file-test">
+            <h3>问题1: 文件路径问题</h3>
+            <p><strong>症状:</strong> CSS和图片在本地显示正常，部署后不显示</p>
+            <p><strong>原因:</strong> 相对路径引用错误或发布目录设置问题</p>
+            <p><strong>解决方案:</strong></p>
+            <ul>
+                <li>确保所有CSS、JS、图片路径使用相对路径（不要以/开头）</li>
+                <li>确保发布目录设置为空（根目录）</li>
+                <li>检查文件名大小写是否一致</li>
+            </ul>
+        </div>
+        
+        <div class="file-test">
+            <h3>问题2: 文件缺失</h3>
+            <p><strong>症状:</strong> 某些文件在Netlify后台看不到</p>
+            <p><strong>解决方案:</strong></p>
+            <ul>
+                <li>重新打包项目，确保包含所有文件</li>
+                <li>检查.gitignore是否误排除了必要文件</li>
+                <li>手动拖拽整个文件夹到Netlify</li>
+            </ul>
+        </div>
+        
+        <div class="file-test">
+            <h3>问题3: 缓存问题</h3>
+            <p><strong>解决方案:</strong></p>
+            <ul>
+                <li>强制刷新浏览器 (Ctrl+F5)</li>
+                <li>清除浏览器缓存</li>
+                <li>在Netlify后台触发新的部署</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>📊 检测结果</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let loadedImages = 0;
+        let failedImages = 0;
+        let totalImages = 3;
+        
+        // 检测CSS
+        function checkCSS() {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'css/style.css';
+            link.onload = function() {
+                document.getElementById('css-test').className = 'status success';
+                document.getElementById('css-test').textContent = '✅ CSS文件加载成功';
+            };
+            link.onerror = function() {
+                document.getElementById('css-test').className = 'status error';
+                document.getElementById('css-test').textContent = '❌ CSS文件加载失败 - 检查路径: css/style.css';
+            };
+            document.head.appendChild(link);
+        }
+        
+        // 检测JavaScript
+        function checkJS() {
+            const script = document.createElement('script');
+            script.src = 'js/script.js';
+            script.onload = function() {
+                document.getElementById('js-test').className = 'status success';
+                document.getElementById('js-test').textContent = '✅ JavaScript文件加载成功';
+            };
+            script.onerror = function() {
+                document.getElementById('js-test').className = 'status error';
+                document.getElementById('js-test').textContent = '❌ JavaScript文件加载失败 - 检查路径: js/script.js';
+            };
+            document.head.appendChild(script);
+        }
+        
+        function imageSuccess(img, filename) {
+            loadedImages++;
+            updateImageStatus();
+        }
+        
+        function imageError(img, filename) {
+            failedImages++;
+            img.style.border = '2px solid red';
+            img.alt = `❌ ${filename} 加载失败`;
+            updateImageStatus();
+        }
+        
+        function updateImageStatus() {
+            if (loadedImages + failedImages === totalImages) {
+                const status = document.getElementById('img-test');
+                if (failedImages === 0) {
+                    status.className = 'status success';
+                    status.textContent = `✅ 所有图片加载成功 (${loadedImages}/${totalImages})`;
+                } else {
+                    status.className = 'status error';
+                    status.textContent = `❌ 图片加载失败 ${failedImages}/${totalImages} - 成功: ${loadedImages}`;
+                }
+                
+                // 生成详细报告
+                generateReport();
+            }
+        }
+        
+        function generateReport() {
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <h3>🎯 修复建议</h3>
+                <div class="status ${failedImages === 0 ? 'success' : 'warning'}">
+                    ${failedImages === 0 ? 
+                        '✅ 所有资源加载正常！您的网站应该可以正常显示。' : 
+                        `⚠️ 发现 ${failedImages} 个资源加载问题，请按以下步骤修复:`
+                    }
+                </div>
+                ${failedImages > 0 ? `
+                <ol>
+                    <li><strong>重新部署:</strong> 确保所有文件都已上传</li>
+                    <li><strong>检查路径:</strong> 确认images/、css/、js/文件夹结构正确</li>
+                    <li><strong>文件名:</strong> 检查文件名大小写是否一致</li>
+                    <li><strong>等待:</strong> 部署可能需要几分钟生效</li>
+                </ol>
+                ` : ''}
+            `;
+        }
+        
+        // 启动检测
+        window.onload = function() {
+            checkCSS();
+            checkJS();
+        };
+    </script>
+</body>
+</html> 
