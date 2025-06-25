@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git自动部署演示 - LED导光板企业官网</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .demo-section {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .method {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid transparent;
+        }
+        .method.recommended {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        .method.old {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.2);
+        }
+        .method h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .steps {
+            list-style: none;
+            padding: 0;
+        }
+        .steps li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .steps li:last-child {
+            border-bottom: none;
+        }
+        .command {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .time-comparison {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .benefit {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .benefit i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+        .demo-update {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .update-time {
+            background: rgba(33, 150, 243, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fab fa-github"></i> Git自动部署演示</h1>
+            <p>体验现代化的网站更新流程</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>📊 部署方式对比</h2>
+            <div class="comparison">
+                <div class="method old">
+                    <h3><i class="fas fa-times-circle"></i> 手动上传方式</h3>
+                    <ul class="steps">
+                        <li>1. 本地修改文件</li>
+                        <li>2. 压缩整个项目为ZIP</li>
+                        <li>3. 登录Netlify控制台</li>
+                        <li>4. 删除旧部署</li>
+                        <li>5. 上传新的ZIP文件</li>
+                        <li>6. 等待部署完成</li>
+                        <li>7. 测试网站是否正常</li>
+                    </ul>
+                    <div class="time-comparison">
+                        ⏱️ 平均用时: 5-10分钟
+                    </div>
+                </div>
+
+                <div class="method recommended">
+                    <h3><i class="fas fa-check-circle"></i> Git自动部署（推荐）</h3>
+                    <ul class="steps">
+                        <li>1. 本地修改文件</li>
+                        <li>2. 提交到Git仓库</li>
+                        <li>3. 推送到GitHub</li>
+                        <li>4. 自动触发部署</li>
+                        <li>5. 网站自动更新</li>
+                    </ul>
+                    <div class="command">
+                        git add .<br>
+                        git commit -m "更新内容"<br>
+                        git push
+                    </div>
+                    <div class="time-comparison">
+                        ⚡ 平均用时: 30秒-2分钟
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🚀 Git自动部署的优势</h2>
+            <div class="benefits">
+                <div class="benefit">
+                    <i class="fas fa-clock"></i>
+                    <h3>极速更新</h3>
+                    <p>30秒完成网站更新，效率提升10倍</p>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-history"></i>
+                    <h3>版本控制</h3>
+                    <p>每次更改都有记录，可随时回退</p>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-users"></i>
+                    <h3>团队协作</h3>
+                    <p>多人可同时开发，自动合并代码</p>
+                </div>
+                <div class="benefit">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>安全可靠</h3>
+                    <p>出错可立即回滚，降低风险</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎯 实战演示</h2>
+            <div class="demo-update">
+                <h3>模拟更新场景：修改首页标题</h3>
+                <p><strong>需求</strong>：将首页标题从"优质企业"改为"LED导光板专家"</p>
+                
+                <div class="command">
+                    # 1. 修改 index.html 文件<br>
+                    &lt;title&gt;LED导光板专家 - 18年专业技术&lt;/title&gt;<br><br>
+                    
+                    # 2. 提交更改<br>
+                    git add index.html<br>
+                    git commit -m "更新：修改首页标题"<br>
+                    git push
+                </div>
+                
+                <div class="update-time">
+                    <i class="fas fa-rocket"></i> 预计30秒后网站自动更新完成！
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 设置Git自动部署步骤</h2>
+            <ol style="font-size: 1.1rem; line-height: 1.8;">
+                <li><strong>删除当前网站</strong>：在Netlify控制台删除手动上传的网站</li>
+                <li><strong>连接GitHub</strong>：创建新网站，选择"New site from Git"</li>
+                <li><strong>选择仓库</strong>：选择您的GitHub仓库 xiaoshun2004/zhongwei2006</li>
+                <li><strong>配置设置</strong>：发布目录留空，构建命令留空</li>
+                <li><strong>完成部署</strong>：等待首次自动部署完成</li>
+            </ol>
+        </div>
+
+        <div class="demo-section">
+            <h2>💡 日常使用示例</h2>
+            
+            <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin: 20px 0;">
+                <h4>场景1: 更新产品信息</h4>
+                <div class="command">
+                    # 修改 products.html 添加新产品<br>
+                    git add products.html<br>
+                    git commit -m "新增：2024款智能LED导光板"<br>
+                    git push
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin: 20px 0;">
+                <h4>场景2: 调整页面样式</h4>
+                <div class="command">
+                    # 修改 css/style.css 调整颜色<br>
+                    git add css/style.css<br>
+                    git commit -m "优化：调整主题颜色为深蓝色"<br>
+                    git push
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin: 20px 0;">
+                <h4>场景3: 批量更新多个文件</h4>
+                <div class="command">
+                    # 同时修改多个文件<br>
+                    git add .<br>
+                    git commit -m "重大更新：升级到2024版本界面"<br>
+                    git push
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section" style="text-align: center;">
+            <h2>🎉 立即开始使用Git自动部署</h2>
+            <p style="font-size: 1.2rem; margin: 20px 0;">
+                告别繁琐的手动上传，拥抱现代化的开发流程！
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0;">
+                <a href="https://app.netlify.com/" target="_blank" 
+                   style="background: #4CAF50; color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                    <i class="fas fa-rocket"></i> 前往Netlify设置
+                </a>
+                <a href="https://github.com/xiaoshun2004/zhongwei2006" target="_blank"
+                   style="background: #333; color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                    <i class="fab fa-github"></i> 查看GitHub仓库
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 动态显示当前时间
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleString('zh-CN');
+            document.title = `Git自动部署演示 - ${timeStr}`;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 模拟实时更新效果
+        function simulateUpdate() {
+            const updateElement = document.querySelector('.update-time');
+            if (updateElement) {
+                let countdown = 30;
+                const interval = setInterval(() => {
+                    updateElement.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${countdown}秒后自动更新完成...`;
+                    countdown--;
+                    if (countdown < 0) {
+                        clearInterval(interval);
+                        updateElement.innerHTML = '<i class="fas fa-check-circle"></i> 网站更新完成！🎉';
+                        updateElement.style.background = 'rgba(76, 175, 80, 0.5)';
+                    }
+                }, 1000);
+            }
+        }
+
+        // 页面加载后3秒开始模拟
+        setTimeout(simulateUpdate, 3000);
+    </script>
+</body>
+</html> 
